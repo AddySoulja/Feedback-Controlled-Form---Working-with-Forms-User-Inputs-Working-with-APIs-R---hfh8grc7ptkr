@@ -40,10 +40,12 @@ const App = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          {commentError === true ?? (
+          {commentError === true ? (
             <p style={{ color: "red" }} className="comment-error">
               Comment must be atleast 5 characters.
             </p>
+          ) : (
+            ""
           )}
         </div>
         <button type="submit" onClick={handleSubmit}>
