@@ -4,20 +4,20 @@ import "../styles/App.css";
 const App = () => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
-  const [commentError, setCommentError] = useState(null);
+  const [commentError, setCommentError] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
   }
+
   useEffect(() => {
-    const checkError = () => {
-      if (comment.length < 5) {
-        setCommentError(true);
-      } else {
-        setCommentError(false);
-      }
-    };
-    checkError();
+    if (comment !== "" && comment.length < 5) {
+      setCommentError(true);
+    } else {
+      setCommentError(false);
+    }
   }, [comment, setComment]);
+
   return (
     <div id="main">
       <form>
@@ -40,7 +40,7 @@ const App = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          {commentError !== null ? (
+          {commentError === true ? (
             <p style={{ color: "red" }} className="comment-error">
               Comment must be atleast 5 characters.
             </p>
