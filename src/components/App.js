@@ -1,36 +1,59 @@
-import React, { useState } from 'react'
-import '../styles/App.css';
+import React, { useEffect, useState } from "react";
+import "../styles/App.css";
 
 const App = () => {
-  const [rating, setRating] = useState();
-  const [comment, setComment] = useState();
-  const [commentError, setCommentError] = useState();
-
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [commentError, setCommentError] = useState(null);
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+  useEffect(() => {
+    const checkError = () => {
+      if (comment.length < 5) {
+        setCommentError(true);
+      } else {
+        setCommentError(false);
+      }
+    };
+    checkError();
+  }, [comment, setComment]);
   return (
     <div id="main">
       <form>
         <div>
-          <label htmlFor='rating'>Rating: </label>
-          <input 
+          <label htmlFor="rating">Rating: </label>
+          <input
             type="range"
             min="1"
             max="10"
             id="rating"
+            value={rating}
+            onChange={(e) => setRating(parseInt(e.target.value))}
           />
-          <span className='rating'>rating</span>
+          <span className="rating">{rating}</span>
         </div>
         <div>
-          <label htmlFor='comment'>Comment: </label>
-          <textarea 
-            id='comment'
+          <label htmlFor="comment">Comment: </label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
-          <p style={{ color: 'red' }} className="comment-error">Comment must be atleast 5 characters.</p>
+          {commentError !== null ? (
+            <p style={{ color: "red" }} className="comment-error">
+              Comment must be atleast 5 characters.
+            </p>
+          ) : (
+            ""
+          )}
         </div>
-        <button type='submit'>Submit</button>
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
       </form>
     </div>
-  )
-}
-
+  );
+};
 
 export default App;
